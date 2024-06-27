@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import AddSale from "../components/AddSale";
 import AuthContext from "../AuthContext";
 
@@ -11,47 +11,42 @@ function Sales() {
 
   const authContext = useContext(AuthContext);
 
-  useEffect(() => {
-    fetchSalesData();
-    fetchProductsData();
-    fetchStoresData();
-  }, [updatePage]);
-
-  // Fetching Data of All Sales
-  const fetchSalesData = () => {
+  const fetchSalesData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/sales/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllSalesData(data);
       })
       .catch((err) => console.log(err));
-  };
+  }, [authContext.user]);
 
-  // Fetching Data of All Products
-  const fetchProductsData = () => {
+  const fetchProductsData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
       })
       .catch((err) => console.log(err));
-  };
+  }, [authContext.user]);
 
-  // Fetching Data of All Stores
-  const fetchStoresData = () => {
+  const fetchStoresData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/store/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);
       });
-  };
+  }, [authContext.user]);
 
-  // Modal for Sale Add
+  useEffect(() => {
+    fetchSalesData();
+    fetchProductsData();
+    fetchStoresData();
+  }, [updatePage, fetchSalesData, fetchProductsData, fetchStoresData]);
+
   const addSaleModalSetting = () => {
     setShowSaleModal(!showSaleModal);
   };
 
-  // Handle Page Update
   const handlePageUpdate = () => {
     setUpdatePage(!updatePage);
   };
@@ -68,7 +63,6 @@ function Sales() {
             authContext={authContext}
           />
         )}
-        {/* Table  */}
         <div className="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
           <div className="flex justify-between pt-5 pb-3 px-3">
             <div className="flex gap-4 justify-center items-center ">
@@ -79,7 +73,6 @@ function Sales() {
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
                 onClick={addSaleModalSetting}
               >
-                {/* <Link to="/inventory/add-product">Add Product</Link> */}
                 Agregar Salida
               </button>
             </div>
@@ -104,12 +97,11 @@ function Sales() {
                 </th>
               </tr>
             </thead>
-
             <tbody className="divide-y divide-gray-200">
-              {sales.map((element, index) => {
+              {sales.map((element) => {
                 return (
                   <tr key={element._id}>
-                    <td className="whitespace-nowrap px-4 py-2  text-gray-900">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-900">
                       {element.ProductID?.name}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
@@ -119,7 +111,7 @@ function Sales() {
                       {element.StockSold}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                      {element.SaleDate}
+                      {new Date(element.SaleDate).toLocaleDateString()}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                       ${element.TotalSaleAmount}

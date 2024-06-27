@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import AddStore from "../components/AddStore";
 import AuthContext from "../AuthContext";
 
@@ -8,18 +8,17 @@ function Store() {
 
   const authContext = useContext(AuthContext);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // Fetching all stores data
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/store/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);
       });
-  };
+  }, [authContext.user]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const modalSetting = () => {
     setShowModal(!showModal);
@@ -38,7 +37,7 @@ function Store() {
           </button>
         </div>
         {showModal && <AddStore />}
-        {stores.map((element, index) => {
+        {stores.map((element) => {
           return (
             <div
               className="bg-white w-50 h-fit flex flex-col gap-4 p-4 "

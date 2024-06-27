@@ -1,4 +1,3 @@
-// import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../AuthContext";
@@ -11,7 +10,6 @@ function Login() {
 
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
-
 
   const handleInputChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,14 +27,14 @@ function Login() {
           });
         })
         .catch((err) => {
-          alert("Wrong credentials, Try again")
+          alert("Wrong credentials, Try again");
           console.log(err);
         });
     }, 3000);
   };
 
   const loginUser = (e) => {
-    // Cannot send empty data
+    e.preventDefault();
     if (form.email === "" || form.password === "") {
       alert("To login user, enter details to proceed...");
     } else {
@@ -57,12 +55,6 @@ function Login() {
     authCheck();
   };
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 h-screen  items-center place-items-center">
@@ -71,14 +63,11 @@ function Login() {
         </div>
         <div className="w-full max-w-md space-y-8 p-10 rounded-lg">
           <div>
-            
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Inicia Sesión
+              Inicia Sesión
             </h2>
-            
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            {/* <input type="hidden" name="remember" defaultValue="true" /> */}
+          <form className="mt-8 space-y-6" onSubmit={loginUser}>
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label htmlFor="email-address" className="sr-only">
@@ -131,9 +120,7 @@ function Login() {
               </div>
 
               <div className="text-sm">
-                <span
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
+                <span className="font-medium text-indigo-600 hover:text-indigo-500">
                   ¿Olvidaste tu contraseña?
                 </span>
               </div>
@@ -145,15 +132,9 @@ function Login() {
                 className="group relative flex w-full justify-center rounded-md bg-[#7caaaa] py-2 px-3 text-sm font-semibold text-white hover:bg-[#8fa9a9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={loginUser}
               >
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  {/* <LockClosedIcon
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    aria-hidden="true"
-                  /> */}
-                </span>
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3"></span>
                 Iniciar Sesión
               </button>
-              
             </div>
           </form>
         </div>

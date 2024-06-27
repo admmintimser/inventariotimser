@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import AddProduct from "../components/AddProduct";
 import UpdateProduct from "../components/UpdateProduct";
 import AuthContext from "../AuthContext";
@@ -8,66 +8,53 @@ function Inventory() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [updateProduct, setUpdateProduct] = useState([]);
   const [products, setAllProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
   const [updatePage, setUpdatePage] = useState(true);
   const [stores, setAllStores] = useState([]);
 
   const authContext = useContext(AuthContext);
-  console.log('====================================');
-  console.log(authContext);
-  console.log('====================================');
 
-  useEffect(() => {
-    fetchProductsData();
-    fetchSalesData();
-  }, [updatePage]);
-
-  // Fetching Data of All Products
-  const fetchProductsData = () => {
+  const fetchProductsData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
       })
       .catch((err) => console.log(err));
-  };
+  }, [authContext.user]);
 
-  // Fetching Data of Search Products
-  const fetchSearchData = () => {
+  const fetchSearchData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/search?searchTerm=${searchTerm}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
       })
       .catch((err) => console.log(err));
-  };
+  }, [searchTerm]);
 
-  // Fetching all stores data
-  const fetchSalesData = () => {
+  const fetchSalesData = useCallback(() => {
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/store/get/${authContext.user}`)
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);
       });
-  };
+  }, [authContext.user]);
 
-  // Modal for Product ADD
+  useEffect(() => {
+    fetchProductsData();
+    fetchSalesData();
+  }, [updatePage, fetchProductsData, fetchSalesData]);
+
   const addProductModalSetting = () => {
     setShowProductModal(!showProductModal);
   };
 
-  // Modal for Product UPDATE
   const updateProductModalSetting = (selectedProductData) => {
-    console.log("Clicked: edit");
     setUpdateProduct(selectedProductData);
     setShowUpdateModal(!showUpdateModal);
   };
 
-
-  // Delete item
   const deleteItem = (id) => {
-    console.log("Product ID: ", id);
-    console.log(`https://apiwebinventariotimser.azurewebsites.net/api/product/delete/${id}`);
     fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/delete/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -75,12 +62,10 @@ function Inventory() {
       });
   };
 
-  // Handle Page Update
   const handlePageUpdate = () => {
     setUpdatePage(!updatePage);
   };
 
-  // Handle Search Term
   const handleSearchTerm = (e) => {
     setSearchTerm(e.target.value);
     fetchSearchData();
@@ -99,7 +84,6 @@ function Inventory() {
               <span className="font-semibold text-gray-600 text-base">
                 {products.length}
               </span>
-              
             </div>
             <div className="flex flex-col gap-3 p-10   w-full  md:w-3/12 sm:border-y-2  md:border-x-2 md:border-y-0">
               <span className="font-semibold text-yellow-600 text-base">
@@ -110,11 +94,7 @@ function Inventory() {
                   <span className="font-semibold text-gray-600 text-base">
                     {stores.length}
                   </span>
-                  {/* <span className="font-thin text-gray-400 text-xs">
-                    Last 7 days
-                  </span> */}
                 </div>
-                
               </div>
             </div>
             <div className="flex flex-col gap-3 p-10  w-full  md:w-3/12  sm:border-y-2 md:border-x-2 md:border-y-0">
@@ -126,15 +106,11 @@ function Inventory() {
                   <span className="font-semibold text-gray-600 text-base">
                     5
                   </span>
-                  {/* <span className="font-thin text-gray-400 text-xs">
-                    Last 7 days
-                  </span> */}
                 </div>
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-600 text-base">
                     Micropipeta
                   </span>
-                  {/* <span className="font-thin text-gray-400 text-xs">Cost</span> */}
                 </div>
               </div>
             </div>
@@ -177,7 +153,6 @@ function Inventory() {
           />
         )}
 
-        {/* Table  */}
         <div className="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
           <div className="flex justify-between pt-5 pb-3 px-3">
             <div className="flex gap-4 justify-center items-center ">
@@ -202,7 +177,6 @@ function Inventory() {
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
                 onClick={addProductModalSetting}
               >
-                {/* <Link to="/inventory/add-product">Add Product</Link> */}
                 Agregar
               </button>
             </div>
