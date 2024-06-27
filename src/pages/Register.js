@@ -32,22 +32,6 @@ function Register() {
       .catch((err) => console.log(err));
   };
 
-  const uploadImage = async (image) => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "inventoryapp");
-
-    await fetch("https://api.cloudinary.com/v1_1/ddhayhptm/image/upload", {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setForm({ ...form, imageUrl: data.url });
-        alert("Image Successfully Uploaded");
-      })
-      .catch((error) => console.log(error));
-  };
 
   return (
     <>
