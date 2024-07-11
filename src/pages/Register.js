@@ -18,7 +18,7 @@ function Register() {
 
   const registerUser = (e) => {
     e.preventDefault();
-    fetch("https://apiwebinventariotimser.azurewebsites.net/api/register", {
+    fetch("https://inventariotimser.azurewebsites.net/api/register", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

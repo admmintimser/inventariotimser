@@ -12,15 +12,18 @@ export default function AddProduct({
     userId: authContext.user,
     name: "",
     manufacturer: "",
-    description: "",
-    stock: "",
-    codigointernto: "",
-    moneda: "",
-    prioridad: "",
+    stock: 0,
+    categoria: "",
+    sku: "",
+    descripcion: "",
+    marca: "",
     presentacion: "",
-    unidad: "" // New state field for unit of measure
+    UM: "",
+    cantidadpresentacion: "",
+    codigointernto: "",
+    moneda: "MXN",
+    prioridad: "Necesario",
   });
-  console.log("----", product);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
@@ -29,7 +32,7 @@ export default function AddProduct({
   };
 
   const addProduct = () => {
-    fetch("https://apiwebinventariotimser.azurewebsites.net/api/product/add", {
+    fetch("https://inventariotimser.azurewebsites.net/api/product/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -152,6 +155,63 @@ export default function AddProduct({
                           </div>
                           <div>
                             <label
+                              htmlFor="categoria"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                            >
+                              Categoría
+                            </label>
+                            <input
+                              type="text"
+                              name="categoria"
+                              id="categoria"
+                              value={product.categoria}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Categoría"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="sku"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                            >
+                              SKU
+                            </label>
+                            <input
+                              type="text"
+                              name="sku"
+                              id="sku"
+                              value={product.sku}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="SKU"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="marca"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                            >
+                              Marca
+                            </label>
+                            <input
+                              type="text"
+                              name="marca"
+                              id="marca"
+                              value={product.marca}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Marca"
+                            />
+                          </div>
+                          <div>
+                            <label
                               htmlFor="codigointernto"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                             >
@@ -213,7 +273,7 @@ export default function AddProduct({
                               htmlFor="presentacion"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                             >
-                              Presentacion
+                              Presentación
                             </label>
                             <input
                               type="text"
@@ -224,20 +284,20 @@ export default function AddProduct({
                                 handleInputChange(e.target.name, e.target.value)
                               }
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="Presentacion"
+                              placeholder="Presentación"
                             />
                           </div>
                           <div>
                             <label
-                              htmlFor="unidad"
+                              htmlFor="UM"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                             >
                               Unidad de Medida
                             </label>
                             <select
-                              name="unidad"
-                              id="unidad"
-                              value={product.unidad}
+                              name="UM"
+                              id="UM"
+                              value={product.UM}
                               onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             >
@@ -253,20 +313,39 @@ export default function AddProduct({
                               <option value="ug">ug</option>
                             </select>
                           </div>
-                          <div className="sm:col-span-2">
+                          <div>
                             <label
-                              htmlFor="description"
+                              htmlFor="cantidadpresentacion"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                             >
-                              Description
+                              Cantidad Presentación
+                            </label>
+                            <input
+                              type="text"
+                              name="cantidadpresentacion"
+                              id="cantidadpresentacion"
+                              value={product.cantidadpresentacion}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Cantidad Presentación"
+                            />
+                          </div>
+                          <div className="sm:col-span-2">
+                            <label
+                              htmlFor="descripcion"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                            >
+                              Descripción
                             </label>
                             <textarea
-                              id="description"
+                              id="descripcion"
                               rows="5"
-                              name="description"
+                              name="descripcion"
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Agrega descripción..."
-                              value={product.description}
+                              value={product.descripcion}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
@@ -287,13 +366,13 @@ export default function AddProduct({
                     Agregar Producto
                   </button>
                   <button
-                            type="button"
-                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                            onClick={() => addProductModalSetting()}
-                            ref={cancelButtonRef}
-                          >
-                            Cancelar
-                          </button>
+                    type="button"
+                    className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                    onClick={() => addProductModalSetting()}
+                    ref={cancelButtonRef}
+                  >
+                    Cancelar
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

@@ -6,19 +6,24 @@ export default function AddPurchaseDetails({
   addSaleModalSetting,
   products,
   handlePageUpdate,
-  authContext
 }) {
   const [purchase, setPurchase] = useState({
-    userID: authContext.user,
     productID: "",
+    lote: "",
+    referencia: "",
+    unidadMedida: "",
+    cantidadEmpaques: "",
+    cantidadPorEmaque: "",
     quantityPurchased: "",
     purchaseDate: "",
-    totalPurchaseAmount: "",
+    temperatura: "",
+    caducidad: "",
+    documento: "",
+    proveedor: "",
+    marca: "",
   });
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
-
-  console.log("PPu: ", purchase);
 
   // Handling Input Change for input fields
   const handleInputChange = (key, value) => {
@@ -27,7 +32,7 @@ export default function AddPurchaseDetails({
 
   // POST Data
   const addSale = () => {
-    fetch("https://apiwebinventariotimser.azurewebsites.net/api/purchase/add", {
+    fetch("https://inventariotimser.azurewebsites.net/api/purchase/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -86,7 +91,7 @@ export default function AddPurchaseDetails({
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left ">
                       <Dialog.Title
                         as="h3"
-                        className="text-lg  py-4 font-semibold leading-6 text-gray-900 "
+                        className="text-lg py-4 font-semibold leading-6 text-gray-900 "
                       >
                         Agregar a inventario
                       </Dialog.Title>
@@ -108,21 +113,114 @@ export default function AddPurchaseDetails({
                               }
                             >
                               <option selected="">Seleccionar Productos</option>
-                              {products.map((element, index) => {
-                                return (
-                                  <option key={element._id} value={element._id}>
-                                    {element.name}
-                                  </option>
-                                );
-                              })}
+                              {products.map((element, index) => (
+                                <option key={element._id} value={element._id}>
+                                  {element.name}
+                                </option>
+                              ))}
                             </select>
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="lote"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Lote
+                            </label>
+                            <input
+                              type="text"
+                              name="lote"
+                              id="lote"
+                              value={purchase.lote}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Lote"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="referencia"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Referencia
+                            </label>
+                            <input
+                              type="text"
+                              name="referencia"
+                              id="referencia"
+                              value={purchase.referencia}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Referencia"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="unidadMedida"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Unidad de Medida
+                            </label>
+                            <input
+                              type="text"
+                              name="unidadMedida"
+                              id="unidadMedida"
+                              value={purchase.unidadMedida}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Unidad de Medida"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="cantidadEmpaques"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Cantidad de Empaques
+                            </label>
+                            <input
+                              type="text"
+                              name="cantidadEmpaques"
+                              id="cantidadEmpaques"
+                              value={purchase.cantidadEmpaques}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Cantidad de Empaques"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="cantidadPorEmaque"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Cantidad por Empaque
+                            </label>
+                            <input
+                              type="text"
+                              name="cantidadPorEmaque"
+                              id="cantidadPorEmaque"
+                              value={purchase.cantidadPorEmaque}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Cantidad por Empaque"
+                            />
                           </div>
                           <div>
                             <label
                               htmlFor="quantityPurchased"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                              Quantity Purchased
+                              Cantidad Comprada
                             </label>
                             <input
                               type="number"
@@ -138,29 +236,100 @@ export default function AddPurchaseDetails({
                           </div>
                           <div>
                             <label
-                              htmlFor="totalPurchaseAmount"
+                              htmlFor="temperatura"
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                              Total Purchase Amount
+                              Temperatura
                             </label>
                             <input
-                              type="number"
-                              name="totalPurchaseAmount"
-                              id="price"
-                              value={purchase.totalPurchaseAmount}
+                              type="text"
+                              name="temperatura"
+                              id="temperatura"
+                              value={purchase.temperatura}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
                               }
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                              placeholder="$299"
+                              placeholder="Temperatura"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="caducidad"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Caducidad
+                            </label>
+                            <input
+                              type="text"
+                              name="caducidad"
+                              id="caducidad"
+                              value={purchase.caducidad}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Caducidad"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="documento"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Documento
+                            </label>
+                            <input
+                              type="text"
+                              name="documento"
+                              id="documento"
+                              value={purchase.documento}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Documento"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="proveedor"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Proveedor
+                            </label>
+                            <input
+                              type="text"
+                              name="proveedor"
+                              id="proveedor"
+                              value={purchase.proveedor}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Proveedor"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="marca"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Marca
+                            </label>
+                            <input
+                              type="text"
+                              name="marca"
+                              id="marca"
+                              value={purchase.marca}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Marca"
                             />
                           </div>
                           <div className="h-fit w-fit">
-                            {/* <Datepicker
-                              onChange={handleChange}
-                              show={show}
-                              setShow={handleClose}
-                            /> */}
                             <label
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                               htmlFor="purchaseDate"
@@ -180,51 +349,25 @@ export default function AddPurchaseDetails({
                           </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                          {/* <button
-                            type="submit"
-                            className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                          >
-                            Update product
-                          </button> */}
-                          {/* <button
+                          <button
                             type="button"
-                            className="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                            onClick={addSale}
                           >
-                            <svg
-                              className="mr-1 -ml-1 w-5 h-5"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                clip-rule="evenodd"
-                              ></path>
-                            </svg>
-                            Delete
-                          </button> */}
+                            Agregar
+                          </button>
+                          <button
+                            type="button"
+                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                            onClick={() => addSaleModalSetting()}
+                            ref={cancelButtonRef}
+                          >
+                            Cancelar
+                          </button>
                         </div>
                       </form>
                     </div>
                   </div>
-                </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                    onClick={addSale}
-                  >
-                    Agregar
-                  </button>
-                  <button
-                    type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                    onClick={() => addSaleModalSetting()}
-                    ref={cancelButtonRef}
-                  >
-                    Cancelar
-                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

@@ -10,16 +10,16 @@ export default function AddSale({
   authContext
 }) {
   const [sale, setSale] = useState({
-    userID: authContext.user,
     productID: "",
     storeID: "",
     stockSold: "",
     saleDate: "",
-    totalSaleAmount: "",
+    areaResponsable: "",
+    responsable: "",
+    valeSalida: "",
   });
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
-
 
   // Handling Input Change for input fields
   const handleInputChange = (key, value) => {
@@ -28,7 +28,7 @@ export default function AddSale({
 
   // POST Data
   const addSale = () => {
-    fetch("https://apiwebinventariotimser.azurewebsites.net/api/sales/add", {
+    fetch("https://inventariotimser.azurewebsites.net/api/sales/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -109,7 +109,7 @@ export default function AddSale({
                               }
                             >
                               <option selected="">Select Products</option>
-                              {products.map((element, index) => {
+                              {products.map((element) => {
                                 return (
                                   <option key={element._id} value={element._id}>
                                     {element.name}
@@ -137,7 +137,6 @@ export default function AddSale({
                               placeholder="0 - 999"
                             />
                           </div>
-
                           <div>
                             <label
                               htmlFor="storeID"
@@ -154,7 +153,7 @@ export default function AddSale({
                               }
                             >
                               <option selected="">Select Store</option>
-                              {stores.map((element, index) => {
+                              {stores.map((element) => {
                                 return (
                                   <option key={element._id} value={element._id}>
                                     {element.name}
@@ -173,7 +172,7 @@ export default function AddSale({
                             <input
                               type="number"
                               name="totalSaleAmount"
-                              id="price"
+                              id="totalSaleAmount"
                               value={sale.totalSaleAmount}
                               onChange={(e) =>
                                 handleInputChange(e.target.name, e.target.value)
@@ -182,12 +181,64 @@ export default function AddSale({
                               placeholder="$299"
                             />
                           </div>
+                          <div>
+                            <label
+                              htmlFor="areaResponsable"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Area Responsable
+                            </label>
+                            <input
+                              type="text"
+                              name="areaResponsable"
+                              id="areaResponsable"
+                              value={sale.areaResponsable}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Area Responsable"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="responsable"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Responsable
+                            </label>
+                            <input
+                              type="text"
+                              name="responsable"
+                              id="responsable"
+                              value={sale.responsable}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Responsable"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="valeSalida"
+                              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            >
+                              Vale Salida
+                            </label>
+                            <input
+                              type="text"
+                              name="valeSalida"
+                              id="valeSalida"
+                              value={sale.valeSalida}
+                              onChange={(e) =>
+                                handleInputChange(e.target.name, e.target.value)
+                              }
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                              placeholder="Vale Salida"
+                            />
+                          </div>
                           <div className="h-fit w-fit">
-                            {/* <Datepicker
-                              onChange={handleChange}
-                              show={show}
-                              setShow={handleClose}
-                            /> */}
                             <label
                               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                               htmlFor="salesDate"

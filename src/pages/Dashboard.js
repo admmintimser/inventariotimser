@@ -84,7 +84,7 @@ function Dashboard() {
 
   const fetchTotalSaleAmount = useCallback(() => {
     fetch(
-      `https://apiwebinventariotimser.azurewebsites.net/api/sales/get/${authContext.user}/totalsaleamount`
+      `https://inventariotimser.azurewebsites.net/api/sales/get/${authContext.user}/totalsaleamount`
     )
       .then((response) => response.json())
       .then((datas) => setSaleAmount(datas.totalSaleAmount));
@@ -92,27 +92,27 @@ function Dashboard() {
 
   const fetchTotalPurchaseAmount = useCallback(() => {
     fetch(
-      `https://apiwebinventariotimser.azurewebsites.net/api/purchase/get/${authContext.user}/totalpurchaseamount`
+      `https://inventariotimser.azurewebsites.net/api/purchase/get/${authContext.user}/totalpurchaseamount`
     )
       .then((response) => response.json())
       .then((datas) => setPurchaseAmount(datas.totalPurchaseAmount));
   }, [authContext.user]);
 
   const fetchStoresData = useCallback(() => {
-    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/store/get/${authContext.user}`)
+    fetch(`https://inventariotimser.azurewebsites.net/api/store/get/${authContext.user}`)
       .then((response) => response.json())
       .then((datas) => setStores(datas));
   }, [authContext.user]);
 
   const fetchProductsData = useCallback(() => {
-    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/get/${authContext.user}`)
+    fetch(`https://inventariotimser.azurewebsites.net/api/product/get/${authContext.user}`)
       .then((response) => response.json())
       .then((datas) => setProducts(datas))
       .catch((err) => console.log(err));
   }, [authContext.user]);
 
   const fetchMonthlySalesData = useCallback(() => {
-    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/sales/getmonthly`)
+    fetch(`https://inventariotimser.azurewebsites.net/api/sales/getmonthly`)
       .then((response) => response.json())
       .then((datas) => updateChartData(datas.salesAmount))
       .catch((err) => console.log(err));

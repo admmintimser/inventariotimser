@@ -12,30 +12,30 @@ function Sales() {
   const authContext = useContext(AuthContext);
 
   const fetchSalesData = useCallback(() => {
-    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/sales/get/${authContext.user}`)
+    fetch("https://inventariotimser.azurewebsites.net/api/sales/get")
       .then((response) => response.json())
       .then((data) => {
         setAllSalesData(data);
       })
       .catch((err) => console.log(err));
-  }, [authContext.user]);
+  }, []);
 
   const fetchProductsData = useCallback(() => {
-    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/get/${authContext.user}`)
+    fetch("https://inventariotimser.azurewebsites.net/api/product/get")
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
       })
       .catch((err) => console.log(err));
-  }, [authContext.user]);
+  }, []);
 
   const fetchStoresData = useCallback(() => {
-    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/store/get/${authContext.user}`)
+    fetch("https://inventariotimser.azurewebsites.net/api/store/get")
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);
       });
-  }, [authContext.user]);
+  }, []);
 
   useEffect(() => {
     fetchSalesData();
@@ -93,7 +93,13 @@ function Sales() {
                   Sales Date
                 </th>
                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                  Total Sale Amount
+                  Area Responsable
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                  Responsable
+                </th>
+                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                  Vale Salida
                 </th>
               </tr>
             </thead>
@@ -114,7 +120,13 @@ function Sales() {
                       {new Date(element.SaleDate).toLocaleDateString()}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                      ${element.TotalSaleAmount}
+                      {element.AreaResponsable}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {element.Responsable}
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      {element.ValeSalida}
                     </td>
                   </tr>
                 );
