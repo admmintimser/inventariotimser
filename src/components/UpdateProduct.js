@@ -22,7 +22,7 @@ export default function UpdateProduct({
   };
 
   const updateProduct = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/product/update", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/product/update", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

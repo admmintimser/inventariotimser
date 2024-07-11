@@ -32,7 +32,7 @@ export default function AddProduct({
   };
 
   const addProduct = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/product/add", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/product/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

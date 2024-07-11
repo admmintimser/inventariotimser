@@ -8,7 +8,7 @@ function PurchaseDetails() {
   const [updatePage, setUpdatePage] = useState(true);
 
   const fetchPurchaseData = useCallback(() => {
-    fetch("https://inventariotimser.azurewebsites.net/api/purchase/get")
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/purchase/get")
       .then((response) => response.json())
       .then((data) => {
         setAllPurchaseData(data);
@@ -17,7 +17,7 @@ function PurchaseDetails() {
   }, []);
 
   const fetchProductsData = useCallback(() => {
-    fetch("https://inventariotimser.azurewebsites.net/api/product/get")
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/product/get")
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);

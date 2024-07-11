@@ -34,7 +34,7 @@ export default function AddProveedor({ addProveedorModalSetting, handlePageUpdat
   };
 
   const addProveedor = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/proveedor/add", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/proveedor/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

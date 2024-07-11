@@ -28,7 +28,7 @@ export default function AddSale({
 
   // POST Data
   const addSale = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/sales/add", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/sales/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

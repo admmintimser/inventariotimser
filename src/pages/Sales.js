@@ -12,7 +12,7 @@ function Sales() {
   const authContext = useContext(AuthContext);
 
   const fetchSalesData = useCallback(() => {
-    fetch("https://inventariotimser.azurewebsites.net/api/sales/get")
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/sales/get")
       .then((response) => response.json())
       .then((data) => {
         setAllSalesData(data);
@@ -21,7 +21,7 @@ function Sales() {
   }, []);
 
   const fetchProductsData = useCallback(() => {
-    fetch("https://inventariotimser.azurewebsites.net/api/product/get")
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/product/get")
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
@@ -30,7 +30,7 @@ function Sales() {
   }, []);
 
   const fetchStoresData = useCallback(() => {
-    fetch("https://inventariotimser.azurewebsites.net/api/store/get")
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/store/get")
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);

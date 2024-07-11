@@ -12,7 +12,7 @@ function Inventory() {
   const [stores, setAllStores] = useState([]);
 
   const fetchProductsData = useCallback(() => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/product/get`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/get`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
@@ -21,7 +21,7 @@ function Inventory() {
   }, []);
 
   const fetchSearchData = useCallback(() => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/product/search?searchTerm=${searchTerm}`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/search?searchTerm=${searchTerm}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProducts(data);
@@ -30,7 +30,7 @@ function Inventory() {
   }, [searchTerm]);
 
   const fetchSalesData = useCallback(() => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/store/get`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/store/get`)
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);
@@ -52,7 +52,7 @@ function Inventory() {
   };
 
   const deleteItem = (id) => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/product/delete/${id}`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/product/delete/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setUpdatePage(!updatePage);

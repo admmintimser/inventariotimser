@@ -6,7 +6,7 @@ function Store() {
   const [stores, setAllStores] = useState([]);
 
   const fetchData = useCallback(() => {
-    fetch("https://inventariotimser.azurewebsites.net/api/store/get")
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/store/get")
       .then((response) => response.json())
       .then((data) => {
         setAllStores(data);

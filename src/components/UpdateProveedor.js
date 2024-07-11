@@ -64,7 +64,7 @@ export default function UpdateProveedor({
   };
 
   const updateProveedor = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/proveedor/update", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/proveedor/update", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

@@ -13,7 +13,7 @@ function Proveedor() {
   const [updatePage, setUpdatePage] = useState(true);
 
   const fetchProveedoresData = useCallback(() => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/proveedor/get`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/proveedor/get`)
       .then((response) => response.json())
       .then((data) => {
         setAllProveedores(data);
@@ -22,7 +22,7 @@ function Proveedor() {
   }, []);
 
   const fetchSearchData = useCallback(() => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/proveedor/search?searchTerm=${searchTerm}`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/proveedor/search?searchTerm=${searchTerm}`)
       .then((response) => response.json())
       .then((data) => {
         setAllProveedores(data);
@@ -44,7 +44,7 @@ function Proveedor() {
   };
 
   const deleteItem = (id) => {
-    fetch(`https://inventariotimser.azurewebsites.net/api/proveedor/delete/${id}`)
+    fetch(`https://apiwebinventariotimser.azurewebsites.net/api/proveedor/delete/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setUpdatePage(!updatePage);

@@ -18,7 +18,7 @@ export default function AddStore({ modalSetting }) {
   const cancelButtonRef = useRef(null);
 
   const addStore = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/store/add", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/store/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",

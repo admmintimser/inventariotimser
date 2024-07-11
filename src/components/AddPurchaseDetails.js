@@ -32,7 +32,7 @@ export default function AddPurchaseDetails({
 
   // POST Data
   const addSale = () => {
-    fetch("https://inventariotimser.azurewebsites.net/api/purchase/add", {
+    fetch("https://apiwebinventariotimser.azurewebsites.net/api/purchase/add", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
