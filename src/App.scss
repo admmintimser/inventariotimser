@@ -1,0 +1,25 @@
+@use "./styles/global.scss" as *;
+@use "./styles/partials/colors" as *;
+@use "./styles/partials/mixins" as *;
+@use "./styles/partials/fonts" as *;
+@use "./styles/partials/variables" as *;
+
+.app {
+  display: flex;
+
+  &__container {
+    flex-grow: 1;
+    padding: 1rem;
+    transition: margin-left 0.3s ease;
+
+    // Se aplica cuando el sidebar está minimizado
+    &.minimized {
+      margin-left: 60px;  // El mismo valor que minimizedDrawerWidth
+    }
+
+    // Se aplica cuando el sidebar no está minimizado
+    &.expanded {
+      margin-left: 240px;  // El mismo valor que drawerWidth
+    }
+  }
+}
