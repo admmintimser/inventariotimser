@@ -20,7 +20,6 @@ const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api"; // Actua
 const ProductoPage = () => {
   const [productos, setProductos] = useState([]);
   const [proveedores, setProveedores] = useState([]);
-  const [ubicaciones, setUbicaciones] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
@@ -29,7 +28,6 @@ const ProductoPage = () => {
   useEffect(() => {
     fetchProductos();
     fetchProveedores();
-    fetchUbicaciones();
   }, []);
 
   const fetchProductos = async () => {
@@ -37,10 +35,11 @@ const ProductoPage = () => {
       const response = await axios.get(`${API_URL}/productos`);
       setProductos(response.data);
     } catch (error) {
-      console.error("Error fetching productos:", error);
+      console.error("Error fetching productos:", error.response?.data || error.message);
       message.error("Error al cargar los productos");
     }
   };
+  
 
   const fetchProveedores = async () => {
     try {
@@ -52,15 +51,6 @@ const ProductoPage = () => {
     }
   };
 
-  const fetchUbicaciones = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/ubicaciones`);
-      setUbicaciones(response.data);
-    } catch (error) {
-      console.error("Error fetching ubicaciones:", error);
-      message.error("Error al cargar las ubicaciones");
-    }
-  };
 
   const handleCreateOrUpdate = async (values) => {
     try {
@@ -86,7 +76,6 @@ const ProductoPage = () => {
     form.setFieldsValue({
       ...producto,
       proveedor: producto.proveedor?._id,
-      ubicacion: producto.ubicacion?._id,
     });
     setIsModalVisible(true);
   };
@@ -127,7 +116,6 @@ const ProductoPage = () => {
         <Table.Column title="Unidad Medida" dataIndex="unidadMedida" key="unidadMedida" />
         <Table.Column title="Código Interno" dataIndex="codigoInterno" key="codigoInterno" />
         <Table.Column title="SKU" dataIndex="sku" key="sku" />
-        <Table.Column title="Ubicación" dataIndex={["ubicacion", "nombre"]} key="ubicacion" />
         <Table.Column title="Cantidad por Empaque" dataIndex="cantidadPorEmpaque" key="cantidadPorEmpaque" />
         <Table.Column title="Alcance Preventix" dataIndex="alcancePreventix" key="alcancePreventix" render={(value) => (value ? "Sí" : "No")} />
         <Table.Column
@@ -157,7 +145,7 @@ const ProductoPage = () => {
             <Input />
           </Form.Item>
           <Form.Item name="proveedor" label="Proveedor" rules={[{ required: true }]}>
-            <Select>
+            <Select placeholder="Seleccione proveedor">
               {proveedores.map((proveedor) => (
                 <Option key={proveedor._id} value={proveedor._id}>
                   {proveedor.nombre}
@@ -169,25 +157,40 @@ const ProductoPage = () => {
             <Input />
           </Form.Item>
           <Form.Item name="presentacion" label="Presentación">
-            <Input />
+          <Select placeholder="Seleccione presentación">
+              <Option value="Bidon">Bidon</Option>
+              <Option value="Bolsa">Bolsa</Option>
+              <Option value="Bote">Bote</Option>
+              <Option value="Botella">Botella</Option>
+              <Option value="Caja">Caja</Option>
+              <Option value="Envase">Envase</Option>
+              <Option value="Envase (ml)">Envase (ml)</Option>
+              <Option value="Frasco">Frasco</Option>
+              <Option value="Galon">Galon</Option>
+              <Option value="Gradilla">Gradilla</Option>
+              <Option value="Paquete">Paquete</Option>
+              <Option value="Porron">Porron</Option>
+              <Option value="Pq">Pq</Option>
+              <Option value="Rack">Rack</Option>
+              <Option value="Unidad">Unidad</Option>
+              <Option value="Vial">Vial</Option>
+              <Option value="Viales">Viales</Option>
+            </Select>
           </Form.Item>
-          <Form.Item name="unidadMedida" label="Unidad Medida">
-            <Input />
+          <Form.Item name="unidadMedida" label="Unidad de Medida">
+          <Select placeholder="Seleccione una unidad de medida">
+              {["g", "kg", "m", "mg", "ml", "pz", "ug", "ul"].map((unidad) => (
+                <Option key={unidad} value={unidad}>
+                  {unidad}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="codigoInterno" label="Código Interno" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item name="sku" label="SKU" rules={[{ required: true }]}>
             <Input />
-          </Form.Item>
-          <Form.Item name="ubicacion" label="Ubicación" rules={[{ required: true }]}>
-            <Select>
-              {ubicaciones.map((ubicacion) => (
-                <Option key={ubicacion._id} value={ubicacion._id}>
-                  {ubicacion.nombre}
-                </Option>
-              ))}
-            </Select>
           </Form.Item>
           <Form.Item name="cantidadPorEmpaque" label="Cantidad por Empaque" rules={[{ required: true }]}>
             <Input type="number" />

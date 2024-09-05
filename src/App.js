@@ -13,6 +13,7 @@ import InventarioPage from "./pages/InventarioPage/InventarioPage";
 import ProveedorPage from "./pages/ProveedorPage/ProveedorPage";
 import UbicacionPage from "./pages/UbicacionPage/UbicacionPage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
+import DestinosPage from "./pages/DestinosPage/DestinosPage";
 
 function App() {
   const [isMinimized, setIsMinimized] = React.useState(false);
@@ -33,6 +34,7 @@ function App() {
             <Route path="/proveedor" element={<ProveedorPage />} />
             <Route path="/ubicacion" element={<UbicacionPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/destinos" element={<DestinosPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </div>

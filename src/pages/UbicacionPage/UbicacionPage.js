@@ -30,13 +30,19 @@ const UbicacionPage = () => {
 
   const fetchProductosByUbicacion = async (ubicacionId) => {
     try {
-      const response = await axios.get(`${API_URL}/ubicaciones/${ubicacionId}/productos`);
-      setProductos(response.data);
-      setIsProductModalVisible(true);
+        const response = await axios.get(`${API_URL}/ubicaciones/${ubicacionId}/productos`);
+        
+        if (response.data.length === 0) {
+            message.info("No hay productos asociados con esta ubicación");
+        } else {
+            console.log("Productos obtenidos:", response.data); // Añadir log para ver los datos
+            setProductos(response.data);
+            setIsProductModalVisible(true);
+        }
     } catch (error) {
-      message.error("Error al cargar los productos de la ubicación");
+        message.error(error.response?.data?.error || "Error al cargar los productos de la ubicación");
     }
-  };
+};
 
   const handleCreateOrUpdate = async (values) => {
     try {
@@ -146,6 +152,7 @@ const UbicacionPage = () => {
           <Table.Column title="Caducidad" dataIndex="caducidad" key="caducidad" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
         </Table>
       </Modal>
+
     </div>
   );
 };

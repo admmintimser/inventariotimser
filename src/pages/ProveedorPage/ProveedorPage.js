@@ -84,6 +84,7 @@ const ProveedorPage = () => {
         <Table.Column title="Activo" dataIndex="activo" key="activo" render={(value) => (value ? "Sí" : "No")} />
         <Table.Column title="Clasificación 1" dataIndex="clasificacion1" key="clasificacion1" />
         <Table.Column title="Clasificación 2" dataIndex="clasificacion2" key="clasificacion2" />
+        <Table.Column title="Detalles" dataIndex="detalles" key="detalles" />
         <Table.Column
           title="Acciones"
           key="actions"
@@ -116,7 +117,7 @@ const ProveedorPage = () => {
           <Form.Item name="direccion" label="Dirección" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="correo" label="Correo" rules={[{ required: true, type: "email" }]}>
+          <Form.Item name="correo" label="Correo o Página WEB" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item name="activo" valuePropName="checked" label="Activo">
@@ -126,6 +127,9 @@ const ProveedorPage = () => {
             <Input />
           </Form.Item>
           <Form.Item name="clasificacion2" label="Clasificación 2">
+            <Input />
+            </Form.Item>
+          <Form.Item name="Detalles" label="Detalles">
             <Input />
           </Form.Item>
         </Form>

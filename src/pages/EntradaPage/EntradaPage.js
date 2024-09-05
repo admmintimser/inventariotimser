@@ -11,6 +11,7 @@ const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 const EntradaPage = () => {
   const [entradas, setEntradas] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [ubicaciones, setUbicaciones] = useState([]); // Añadimos el estado para las ubicaciones
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedEntrada, setSelectedEntrada] = useState(null);
@@ -19,6 +20,7 @@ const EntradaPage = () => {
   useEffect(() => {
     fetchEntradas();
     fetchProductos();
+    fetchUbicaciones(); // Cargar ubicaciones
   }, []);
 
   const fetchEntradas = async () => {
@@ -36,6 +38,15 @@ const EntradaPage = () => {
       setProductos(response.data);
     } catch (error) {
       message.error("Error al cargar los productos");
+    }
+  };
+
+  const fetchUbicaciones = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/ubicaciones`);
+      setUbicaciones(response.data);
+    } catch (error) {
+      message.error("Error al cargar las ubicaciones");
     }
   };
 
@@ -62,6 +73,7 @@ const EntradaPage = () => {
     form.setFieldsValue({
       ...entrada,
       producto: entrada.producto?._id,
+      ubicacion: entrada.ubicacion?._id, // Añadir ubicación al formulario
       fechaEntrada: entrada.fechaEntrada ? moment(entrada.fechaEntrada) : null,
       fechaCaducidad: entrada.fechaCaducidad ? moment(entrada.fechaCaducidad) : null,
     });
@@ -100,6 +112,7 @@ const EntradaPage = () => {
         <Table.Column title="Lote" dataIndex="lote" key="lote" />
         <Table.Column title="Cantidad de Empaques" dataIndex="cantidadEmpaques" key="cantidadEmpaques" />
         <Table.Column title="Temperatura" dataIndex="temperatura" key="temperatura" />
+        <Table.Column title="Ubicación" dataIndex={["ubicacion", "nombre"]} key="ubicacion" /> {/* Mostrar ubicación */}
         <Table.Column title="Fecha de Entrada" dataIndex="fechaEntrada" key="fechaEntrada" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
         <Table.Column title="Fecha de Caducidad" dataIndex="fechaCaducidad" key="fechaCaducidad" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
         <Table.Column
@@ -134,6 +147,16 @@ const EntradaPage = () => {
               ))}
             </Select>
           </Form.Item>
+          <Form.Item name="ubicacion" label="Ubicación" rules={[{ required: true, message: 'Por favor selecciona una ubicación' }]}>
+  <Select placeholder="Selecciona una ubicación">
+    {ubicaciones.map((ubicacion) => (
+      <Option key={ubicacion._id} value={ubicacion._id}>
+        {ubicacion.nombre}
+      </Option>
+    ))}
+  </Select>
+</Form.Item>
+
           <Form.Item name="lote" label="Lote" rules={[{ required: true }]}>
             <Input />
           </Form.Item>

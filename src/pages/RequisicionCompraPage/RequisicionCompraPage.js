@@ -14,8 +14,8 @@ const RequisicionCompraPage = () => {
   const [requisiciones, setRequisiciones] = useState([]);
   const [productos, setProductos] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);  // Definición de isEditing
-  const [isViewing, setIsViewing] = useState(false);  // Definición de isViewing
+  const [isEditing, setIsEditing] = useState(false);
+  const [isViewing, setIsViewing] = useState(false);
   const [selectedRequisicion, setSelectedRequisicion] = useState(null);
   const [form] = Form.useForm();
 
@@ -99,6 +99,16 @@ const RequisicionCompraPage = () => {
     setIsModalVisible(true);
   };
 
+  const handleStatusChange = async (requisicionId, productId, estatus) => {
+    try {
+      await axios.put(`${API_URL}/requisicion-compra/${requisicionId}/producto/${productId}/estatus`, { estatus });
+      message.success("Estatus del producto actualizado exitosamente");
+      fetchRequisiciones();  // Refresh the data after status update
+    } catch (error) {
+      message.error("Error al actualizar el estatus del producto");
+    }
+  };
+
   const showModal = () => {
     setIsModalVisible(true);
     setIsEditing(false);
@@ -127,10 +137,11 @@ const RequisicionCompraPage = () => {
     const productos = selectedRequisicion.productos.map((item) => [
       item.producto.nombre,
       item.cantidadSolicitada,
+      item.estatus,  // Including status in the PDF export
     ]);
 
     doc.autoTable({
-      head: [["Producto", "Cantidad Solicitada"]],
+      head: [["Producto", "Cantidad Solicitada", "Estatus"]],
       body: productos,
       startY: 65,
     });
@@ -230,6 +241,21 @@ const RequisicionCompraPage = () => {
                   dataIndex: "cantidadSolicitada",
                   key: "cantidadSolicitada",
                 },
+                {
+                  title: "Estatus",
+                  dataIndex: "estatus",
+                  key: "estatus",
+                  render: (estatus, record) => (
+                    <Select
+                      defaultValue={estatus}
+                      onChange={(value) => handleStatusChange(selectedRequisicion._id, record.producto._id, value)}
+                    >
+                      <Option value="Pendiente">Pendiente</Option>
+                      <Option value="Transito">Transito</Option>
+                      <Option value="Entregado">Entregado</Option>
+                    </Select>
+                  )
+                }
               ]}
             />
           </div>
@@ -267,6 +293,18 @@ const RequisicionCompraPage = () => {
                         rules={[{ required: true, message: "Ingrese la cantidad solicitada" }]}
                       >
                         <Input placeholder="Cantidad" type="number" />
+                      </Form.Item>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "estatus"]}
+                        fieldKey={[fieldKey, "estatus"]}
+                        rules={[{ required: true, message: "Seleccione un estatus" }]}
+                      >
+                        <Select placeholder="Seleccione un estatus">
+                          <Option value="Pendiente">Pendiente</Option>
+                          <Option value="Transito">Transito</Option>
+                          <Option value="Entregado">Entregado</Option>
+                        </Select>
                       </Form.Item>
                       <Button type="danger" onClick={() => remove(name)}>
                         Eliminar
