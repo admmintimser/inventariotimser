@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Button, Modal, Form, Input, Select, Space, message } from "antd";
-
-const { Option } = Select;
+import { Table, Button, Modal, Form, Input, Space, message } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import moment from "moment"; // Para formatear fechas
 
 const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
@@ -10,15 +10,16 @@ const DestinoPage = () => {
   const [destinos, setDestinos] = useState([]);
   const [productos, setProductos] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isProductModalVisible, setIsProductModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedDestino, setSelectedDestino] = useState(null);
   const [form] = Form.useForm();
 
   useEffect(() => {
     fetchDestinos();
-    fetchProductos();
   }, []);
 
+  // Obtener todos los destinos
   const fetchDestinos = async () => {
     try {
       const response = await axios.get(`${API_URL}/destinos`);
@@ -28,14 +29,21 @@ const DestinoPage = () => {
     }
   };
 
-  const fetchProductos = async () => {
+  const fetchProductosByDestino = async (destinoId) => {
     try {
-      const response = await axios.get(`${API_URL}/productos`);
-      setProductos(response.data);
+        const response = await axios.get(`${API_URL}/destinos/${destinoId}/productos`);
+        if (response.data.length === 0) {
+            message.info("No hay productos asociados con este destino");
+        } else {
+            setProductos(response.data);
+            setIsProductModalVisible(true);
+        }
     } catch (error) {
-      message.error("Error al cargar los productos");
+        message.error(error.response?.data?.error || "Error al cargar los productos del destino");
     }
-  };
+};
+
+
 
   const handleCreateOrUpdate = async (values) => {
     try {
@@ -83,6 +91,11 @@ const DestinoPage = () => {
     form.resetFields();
   };
 
+  const handleProductModalCancel = () => {
+    setIsProductModalVisible(false);
+    setProductos([]);
+  };
+
   return (
     <div>
       <Button type="primary" onClick={showModal} style={{ marginBottom: 16 }}>
@@ -95,13 +108,21 @@ const DestinoPage = () => {
           key="actions"
           render={(text, record) => (
             <Space>
-              <Button onClick={() => handleEdit(record)}>Editar</Button>
-              <Button danger onClick={() => handleDelete(record._id)}>Eliminar</Button>
+              <Button icon={<EditOutlined />} onClick={() => handleEdit(record)}>
+                Editar
+              </Button>
+              <Button icon={<DeleteOutlined />} danger onClick={() => handleDelete(record._id)}>
+                Eliminar
+              </Button>
+              <Button onClick={() => fetchProductosByDestino(record._id)}>
+                Ver Productos
+              </Button>
             </Space>
           )}
         />
       </Table>
 
+      {/* Modal para crear o editar destino */}
       <Modal
         title={isEditing ? "Editar Destino" : "Crear Destino"}
         visible={isModalVisible}
@@ -112,47 +133,22 @@ const DestinoPage = () => {
           <Form.Item name="nombre" label="Nombre" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.List name="productos">
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map(({ key, name, fieldKey, ...restField }) => (
-                  <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'producto']}
-                      fieldKey={[fieldKey, 'producto']}
-                      rules={[{ required: true, message: 'Seleccione un producto' }]}
-                    >
-                      <Select placeholder="Seleccione un producto" style={{ width: 200 }}>
-                        {productos.map((producto) => (
-                          <Option key={producto._id} value={producto._id}>
-                            {producto.nombre}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      {...restField}
-                      name={[name, 'cantidad']}
-                      fieldKey={[fieldKey, 'cantidad']}
-                      rules={[{ required: true, message: 'Ingrese la cantidad' }]}
-                    >
-                      <Input type="number" placeholder="Cantidad" />
-                    </Form.Item>
-                    <Button type="danger" onClick={() => remove(name)}>
-                      Eliminar
-                    </Button>
-                  </Space>
-                ))}
-                <Form.Item>
-                  <Button type="dashed" onClick={() => add()} block>
-                    Agregar Producto
-                  </Button>
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
         </Form>
+      </Modal>
+
+      {/* Modal para ver los productos del destino */}
+      <Modal
+        title="Productos en el Destino"
+        visible={isProductModalVisible}
+        onCancel={handleProductModalCancel}
+        footer={null}
+      >
+        <Table dataSource={productos} rowKey="_id">
+          <Table.Column title="Producto" dataIndex={["producto", "nombre"]} key="producto" />
+          <Table.Column title="Cantidad Disponible" dataIndex="cantidad" key="cantidad" />
+          <Table.Column title="Fecha Movimiento" dataIndex="fechaMovimiento" key="fechaMovimiento" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
+          <Table.Column title="Comentario" dataIndex="comentario" key="comentario" />
+        </Table>
       </Modal>
     </div>
   );

@@ -12,6 +12,8 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import BusinessIcon from '@mui/icons-material/Business';
 import CategoryIcon from '@mui/icons-material/Category';
 import MenuIcon from '@mui/icons-material/Menu';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 
 const drawerWidth = 240;
 const minimizedDrawerWidth = 60;
@@ -78,7 +80,7 @@ const Sidebar = () => {
                 </ListItem>
                 <ListItem button component={Link} to="/requisicion-compra" selected={location.pathname.startsWith('/requisicion-compra')}>
                     <ListItemIcon>
-                        <ReceiptIcon color={location.pathname.startsWith('/requisicion-compra') ? 'primary' : 'inherit'} />
+                        <AddShoppingCartIcon color={location.pathname.startsWith('/requisicion-compra') ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     {!isMinimized && <ListItemText primary="Requisición Compra" />}
                 </ListItem>
@@ -93,6 +95,13 @@ const Sidebar = () => {
                         <StoreIcon color={location.pathname.startsWith('/ubicacion') ? 'primary' : 'inherit'} />
                     </ListItemIcon>
                     {!isMinimized && <ListItemText primary="Ubicaciones" />}
+                </ListItem>
+                
+                <ListItem button component={Link} to="/destinos" selected={location.pathname.startsWith('/destinos')}>
+                    <ListItemIcon>
+                        <AddLocationAltIcon color={location.pathname.startsWith('/destinos') ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    {!isMinimized && <ListItemText primary="Destinos" />}
                 </ListItem>
                 <ListItem button component={Link} to="/dashboard" selected={location.pathname.startsWith('/dashboard')}>
                     <ListItemIcon>

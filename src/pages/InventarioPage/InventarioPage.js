@@ -11,6 +11,7 @@ const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 const InventarioPage = () => {
   const [inventarios, setInventarios] = useState([]);
   const [productos, setProductos] = useState([]);
+  const [ubicaciones, setUbicaciones] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedInventario, setSelectedInventario] = useState(null);
@@ -19,12 +20,13 @@ const InventarioPage = () => {
   useEffect(() => {
     fetchInventarios();
     fetchProductos();
+    fetchUbicaciones();
   }, []);
 
   const fetchInventarios = async () => {
     try {
       const response = await axios.get(`${API_URL}/inventarios`);
-      setInventarios(response.data);
+      setInventarios(response.data);  // Guardar inventarios obtenidos
     } catch (error) {
       message.error("Error al cargar los inventarios");
     }
@@ -33,9 +35,18 @@ const InventarioPage = () => {
   const fetchProductos = async () => {
     try {
       const response = await axios.get(`${API_URL}/productos`);
-      setProductos(response.data);
+      setProductos(response.data);  // Guardar productos obtenidos
     } catch (error) {
       message.error("Error al cargar los productos");
+    }
+  };
+
+  const fetchUbicaciones = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/ubicaciones`);
+      setUbicaciones(response.data);  // Guardar ubicaciones obtenidas
+    } catch (error) {
+      message.error("Error al cargar las ubicaciones");
     }
   };
 
@@ -62,6 +73,7 @@ const InventarioPage = () => {
     form.setFieldsValue({
       ...inventario,
       producto: inventario.producto?._id,
+      ubicacion: inventario.ubicacion?._id,
       caducidad: inventario.caducidad ? moment(inventario.caducidad) : null,
     });
     setIsModalVisible(true);
@@ -91,13 +103,33 @@ const InventarioPage = () => {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal} style={{ marginBottom: 16 }}>
+      {/* <Button type="primary" onClick={showModal} style={{ marginBottom: 16 }}>
         Crear Inventario
-      </Button>
+      </Button> */}
       <Table dataSource={inventarios} rowKey="_id">
-        <Table.Column title="Producto" dataIndex={["producto", "nombre"]} key="producto" />
-        <Table.Column title="Cantidad Disponible" dataIndex="cantidadDisponible" key="cantidadDisponible" />
-        <Table.Column title="Caducidad" dataIndex="caducidad" key="caducidad" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
+        <Table.Column 
+          title="Producto" 
+          dataIndex="producto" 
+          key="producto" 
+          render={(producto) => (producto ? producto.nombre : "Sin Producto")} 
+        />
+        <Table.Column 
+          title="Ubicación" 
+          dataIndex="ubicacion" 
+          key="ubicacion" 
+          render={(ubicacion) => (ubicacion ? ubicacion.nombre : "Sin Ubicación")} 
+        />
+        <Table.Column 
+          title="Cantidad Disponible" 
+          dataIndex="cantidadDisponible" 
+          key="cantidadDisponible" 
+        />
+        <Table.Column 
+          title="Caducidad" 
+          dataIndex="caducidad" 
+          key="caducidad" 
+          render={(value) => value && moment(value).format("DD/MM/YYYY")} 
+        />
         <Table.Column title="Lote" dataIndex="lote" key="lote" />
         <Table.Column
           title="Acciones"
@@ -117,7 +149,7 @@ const InventarioPage = () => {
 
       <Modal
         title={isEditing ? "Editar Inventario" : "Crear Inventario"}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={handleCancel}
         onOk={() => form.submit()}
       >
@@ -127,6 +159,15 @@ const InventarioPage = () => {
               {productos.map((producto) => (
                 <Option key={producto._id} value={producto._id}>
                   {producto.nombre}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="ubicacion" label="Ubicación" rules={[{ required: true }]}>
+            <Select>
+              {ubicaciones.map((ubicacion) => (
+                <Option key={ubicacion._id} value={ubicacion._id}>
+                  {ubicacion.nombre}
                 </Option>
               ))}
             </Select>
