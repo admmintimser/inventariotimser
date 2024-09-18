@@ -13,6 +13,7 @@ const SalidaPage = () => {
   const [productos, setProductos] = useState([]);
   const [destinos, setDestinos] = useState([]);
   const [ubicaciones, setUbicaciones] = useState([]);
+  const [loteAutofill, setLoteAutofill] = useState(""); // Estado para el lote
   const [selectedProducto, setSelectedProducto] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -54,10 +55,10 @@ const SalidaPage = () => {
 
   const fetchUbicacionesPorProducto = async (productoId) => {
     try {
-        const response = await axios.get(`${API_URL}/inventarios/ubicaciones/${productoId}`);
-        setUbicaciones(response.data);
+      const response = await axios.get(`${API_URL}/inventarios/ubicaciones/${productoId}`);
+      setUbicaciones(response.data);
     } catch (error) {
-        message.error("Error al cargar las ubicaciones");
+      message.error("Error al cargar las ubicaciones");
     }
   };
 
@@ -96,6 +97,16 @@ const SalidaPage = () => {
     fetchUbicacionesPorProducto(productoId);
   };
 
+  const handleUbicacionChange = async (ubicacionId) => {
+    // Al seleccionar una ubicación, hacer una solicitud para obtener el lote
+    try {
+      const response = await axios.get(`${API_URL}/inventarios/lote/${selectedProducto}/${ubicacionId}`);
+      setLoteAutofill(response.data.lote); // Actualizar el lote con la respuesta del backend
+    } catch (error) {
+      message.error("Error al obtener el lote para la ubicación seleccionada");
+    }
+  };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/salidas/${id}`);
@@ -127,6 +138,7 @@ const SalidaPage = () => {
         <Table.Column title="Producto" dataIndex={["producto", "nombre"]} key="producto" />
         <Table.Column title="Fecha de Salida" dataIndex="fechaSalida" key="fechaSalida" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
         <Table.Column title="Cantidad de Salida" dataIndex="cantidadSalida" key="cantidadSalida" />
+        <Table.Column title="Lote" dataIndex="lote" key="lote" />
         <Table.Column title="Destino" dataIndex={["destino", "nombre"]} key="destino" />
         <Table.Column
           title="Acciones"
@@ -167,7 +179,7 @@ const SalidaPage = () => {
             <Input type="number" />
           </Form.Item>
           <Form.Item name="ubicacion" label="Ubicación" rules={[{ required: true }]}>
-            <Select placeholder="Selecciona una ubicación">
+            <Select placeholder="Selecciona una ubicación" onChange={handleUbicacionChange}>
               {ubicaciones.map((ubicacion) => (
                 <Option key={ubicacion._id} value={ubicacion._id}>
                   {ubicacion.nombre}
@@ -176,6 +188,9 @@ const SalidaPage = () => {
             </Select>
           </Form.Item>
 
+          <Form.Item label="Lote">
+            <Input value={loteAutofill} readOnly /> {/* Lote autocompletado */}
+          </Form.Item>
           <Form.Item name="destino" label="Destino" rules={[{ required: true }]}>
             <Select placeholder="Selecciona un destino">
               {destinos.map((destino) => (

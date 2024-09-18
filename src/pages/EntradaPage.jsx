@@ -114,7 +114,7 @@ const EntradaPage = () => {
         <Table.Column title="Cantidad de Empaques" dataIndex="cantidadEmpaques" key="cantidadEmpaques" />
         <Table.Column title="Precio de Compra" dataIndex="precioCompra" key="precioCompra" />
         <Table.Column title="Moneda de Compra" dataIndex="monedaCompra" key="monedaCompra" />
-        <Table.Column title="Temperatura de Almacenamiento" dataIndex="temperaturaAlmacenamiento" key="temperaturaAlmacenamiento" />
+        <Table.Column title="Temperatura de Recepción" dataIndex="temperaturaAlmacenamiento" key="temperaturaAlmacenamiento" />
         <Table.Column title="Ubicación" dataIndex={["ubicacion", "nombre"]} key="ubicacion" />
         <Table.Column title="Fecha de Entrada" dataIndex="fechaEntrada" key="fechaEntrada" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
         <Table.Column title="Fecha de Caducidad" dataIndex="fechaCaducidad" key="fechaCaducidad" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
@@ -176,7 +176,7 @@ const EntradaPage = () => {
             <Option value="EUR">EUR</Option>
         </Select>
     </Form.Item>
-    <Form.Item name="temperaturaAlmacenamiento" label="Temperatura de Almacenamiento">
+    <Form.Item name="temperaturaAlmacenamiento" label="Temperatura de Recepción">
         <Input type="number" />
     </Form.Item>
     <Form.Item name="fechaEntrada" label="Fecha de Entrada">

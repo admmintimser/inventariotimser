@@ -69,6 +69,8 @@ const RequisicionCompraPage = () => {
         cantidadSolicitada: producto.cantidadSolicitada,
       })),
       fechaSolicitud: requisicion.fechaSolicitud ? moment(requisicion.fechaSolicitud) : null,
+      urgencia: requisicion.urgencia,   // Set urgency field value
+      detalleReq: requisicion.detalleReq,  // Set detail field value
     });
     setIsModalVisible(true);
   };
@@ -86,7 +88,7 @@ const RequisicionCompraPage = () => {
   const handleApprove = async (id) => {
     try {
       await axios.post(`${API_URL}/requisicion-compra/${id}/approve`);
-      message.success("Requisición aprobada exitosamente y productos añadidos al inventario");
+      message.success("Requisición aprobada exitosamente");
       fetchRequisiciones();
     } catch (error) {
       message.error("Error al aprobar la requisición de compra");
@@ -133,17 +135,19 @@ const RequisicionCompraPage = () => {
     doc.text(`Área: ${selectedRequisicion.area}`, 14, 40);
     doc.text(`Nombre del Solicitante: ${selectedRequisicion.nombreSolicitante}`, 14, 48);
     doc.text(`Fecha de Solicitud: ${moment(selectedRequisicion.fechaSolicitud).format("DD/MM/YYYY")}`, 14, 56);
+    doc.text(`Urgencia: ${selectedRequisicion.urgencia || "N/A"}`, 14, 64);  // Add urgency to PDF
+    doc.text(`Detalles: ${selectedRequisicion.detalleReq || "N/A"}`, 14, 72);  // Add details to PDF
 
     const productos = selectedRequisicion.productos.map((item) => [
       item.producto.nombre,
       item.cantidadSolicitada,
-      item.estatus,  // Including status in the PDF export
+      item.estatus,
     ]);
 
     doc.autoTable({
       head: [["Producto", "Cantidad Solicitada", "Estatus"]],
       body: productos,
-      startY: 65,
+      startY: 80,
     });
 
     doc.save(`Requisicion_Compra_${selectedRequisicion.folioCompra}.pdf`);
@@ -161,6 +165,12 @@ const RequisicionCompraPage = () => {
         <Table.Column title="Fecha de Solicitud" dataIndex="fechaSolicitud" key="fechaSolicitud" render={(value) => value && moment(value).format("DD/MM/YYYY")} />
         <Table.Column title="Cantidad Solicitada" dataIndex={["productos", "cantidadSolicitada"]} key="cantidadSolicitada" />
         <Table.Column title="Folio de Compra" dataIndex="folioCompra" key="folioCompra" />
+        <Table.Column
+          title="Urgencia"
+          dataIndex="urgencia"
+          key="urgencia"
+          render={(value) => value || "No especificada"}  // Render urgency
+        />
         <Table.Column
           title="Estado de Aprobación"
           key="aprobacion"
@@ -226,6 +236,8 @@ const RequisicionCompraPage = () => {
             <p><strong>Área:</strong> {selectedRequisicion.area}</p>
             <p><strong>Nombre del Solicitante:</strong> {selectedRequisicion.nombreSolicitante}</p>
             <p><strong>Fecha de Solicitud:</strong> {moment(selectedRequisicion.fechaSolicitud).format("DD/MM/YYYY")}</p>
+            <p><strong>Urgencia:</strong> {selectedRequisicion.urgencia || "No especificada"}</p>
+            <p><strong>Detalles:</strong> {selectedRequisicion.detalleReq || "No especificados"}</p>
             <Table
               dataSource={selectedRequisicion.productos}
               pagination={false}
@@ -266,6 +278,12 @@ const RequisicionCompraPage = () => {
             </Form.Item>
             <Form.Item name="nombreSolicitante" label="Nombre del Solicitante" rules={[{ required: true, message: "Ingrese el nombre del solicitante" }]}>
               <Input />
+            </Form.Item>
+            <Form.Item name="urgencia" label="Urgencia" rules={[{ required: true, message: "Ingrese el nivel de urgencia" }]}>
+              <Input placeholder="Urgencia (Alta, Media, Baja)" />
+            </Form.Item>
+            <Form.Item name="detalleReq" label="Detalles de la Requisición" rules={[{ required: true, message: "Ingrese los detalles de la requisición" }]}>
+              <Input.TextArea rows={3} placeholder="Detalles adicionales de la requisición" />
             </Form.Item>
             <Form.List name="productos">
               {(fields, { add, remove }) => (

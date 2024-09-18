@@ -3,6 +3,8 @@ import axios from "axios";
 import { Table, Button, Modal, Form, Input, Space, Checkbox, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
+const { Search } = Input; // Añadido para el campo de búsqueda
+
 const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const ProveedorPage = () => {
@@ -11,6 +13,7 @@ const ProveedorPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedProveedor, setSelectedProveedor] = useState(null);
   const [form] = Form.useForm();
+  const [searchText, setSearchText] = useState(""); // Estado para el texto de búsqueda
 
   useEffect(() => {
     fetchProveedores();
@@ -71,12 +74,26 @@ const ProveedorPage = () => {
     form.resetFields();
   };
 
+  // Función de filtrado de proveedores basada en el texto de búsqueda
+  const filteredProveedores = proveedores.filter((proveedor) =>
+    proveedor.nombre.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <div>
+      {/* Campo de búsqueda */}
+      <Search
+        placeholder="Buscar por nombre"
+        onChange={(e) => setSearchText(e.target.value)} // Actualiza el estado de búsqueda
+        style={{ marginBottom: 16, width: 300 }}
+        allowClear
+      />
+
       <Button type="primary" onClick={showModal} style={{ marginBottom: 16 }}>
         Crear Proveedor
       </Button>
-      <Table dataSource={proveedores} rowKey="_id">
+
+      <Table dataSource={filteredProveedores} rowKey="_id"> {/* Proveedores filtrados */}
         <Table.Column title="Nombre" dataIndex="nombre" key="nombre" />
         <Table.Column title="Razón Social" dataIndex="razonSocial" key="razonSocial" />
         <Table.Column title="Dirección" dataIndex="direccion" key="direccion" />
@@ -128,8 +145,8 @@ const ProveedorPage = () => {
           </Form.Item>
           <Form.Item name="clasificacion2" label="Clasificación 2">
             <Input />
-            </Form.Item>
-          <Form.Item name="Detalles" label="Detalles">
+          </Form.Item>
+          <Form.Item name="detalles" label="Detalles">
             <Input />
           </Form.Item>
         </Form>

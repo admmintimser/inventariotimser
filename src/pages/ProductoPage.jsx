@@ -134,6 +134,7 @@ const ProductoPage = () => {
         <Table.Column title="SKU" dataIndex="sku" key="sku" />
         <Table.Column title="Cantidad por Empaque" dataIndex="cantidadPorEmpaque" key="cantidadPorEmpaque" />
         <Table.Column title="Alcance Preventix" dataIndex="alcancePreventix" key="alcancePreventix" render={(value) => (value ? "Sí" : "No")} />
+        <Table.Column title="Condiciones Almacenamiento" dataIndex="condicionesAlmacenamiento" key="condicionesAlmacenamiento" />
         <Table.Column
           title="Acciones"
           key="actions"
@@ -205,9 +206,13 @@ const ProductoPage = () => {
           <Form.Item name="cantidadPorEmpaque" label="Cantidad por Empaque" rules={[{ required: true }]}>
             <Input type="number" />
           </Form.Item>
+          <Form.Item name="condicionesAlmacenamiento" label="Condiciones Almacenamiento">
+            <Input.TextArea placeholder="Especifica las condiciones de almacenamiento" />
+          </Form.Item>
           <Form.Item name="alcancePreventix" valuePropName="checked" label="Alcance Preventix">
             <Checkbox />
           </Form.Item>
+          
         </Form>
       </Modal>
     </div>
