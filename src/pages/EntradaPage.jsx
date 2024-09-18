@@ -142,50 +142,51 @@ const EntradaPage = () => {
         onOk={() => form.submit()}
       >
         <Form form={form} layout="vertical" onFinish={handleCreateOrUpdate}>
-          <Form.Item name="producto" label="Producto" rules={[{ required: true }]}>
-            <Select>
-              {productos.map((producto) => (
+    <Form.Item name="producto" label="Producto" rules={[{ required: true }]}>
+        <Select>
+            {productos.map((producto) => (
                 <Option key={producto._id} value={producto._id}>
-                  {producto.nombre}
+                    {producto.nombre}
                 </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="ubicacion" label="Ubicación" rules={[{ required: true }]}>
-            <Select placeholder="Selecciona una ubicación">
-              {ubicaciones.map((ubicacion) => (
+            ))}
+        </Select>
+    </Form.Item>
+    <Form.Item name="ubicacion" label="Ubicación" rules={[{ required: true }]}>
+        <Select placeholder="Selecciona una ubicación">
+            {ubicaciones.map((ubicacion) => (
                 <Option key={ubicacion._id} value={ubicacion._id}>
-                  {ubicacion.nombre}
+                    {ubicacion.nombre}
                 </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="lote" label="Lote" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="cantidadEmpaques" label="Cantidad de Empaques" rules={[{ required: true }]}>
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="precioCompra" label="Precio de Compra" rules={[{ required: true }]}>
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="monedaCompra" label="Moneda de Compra" rules={[{ required: true }]}>
-            <Select>
-              <Option value="USD">USD</Option>
-              <Option value="MXN">MXN</Option>
-              <Option value="EUR">EUR</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name="temperaturaAlmacenamiento" label="Temperatura de Almacenamiento">
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="fechaEntrada" label="Fecha de Entrada">
-            <DatePicker />
-          </Form.Item>
-          <Form.Item name="fechaCaducidad" label="Fecha de Caducidad">
-            <DatePicker />
-          </Form.Item>
-        </Form>
+            ))}
+        </Select>
+    </Form.Item>
+    <Form.Item name="lote" label="Lote" rules={[{ required: true }]}>
+        <Input />
+    </Form.Item>
+    <Form.Item name="cantidadEmpaques" label="Cantidad de Empaques" rules={[{ required: true }]}>
+        <Input type="number" />
+    </Form.Item>
+    <Form.Item name="precioCompra" label="Precio de Compra" rules={[{ required: true }]}>
+        <Input type="number" />
+    </Form.Item>
+    <Form.Item name="monedaCompra" label="Moneda de Compra" rules={[{ required: true }]}>
+        <Select>
+            <Option value="USD">USD</Option>
+            <Option value="MXN">MXN</Option>
+            <Option value="EUR">EUR</Option>
+        </Select>
+    </Form.Item>
+    <Form.Item name="temperaturaAlmacenamiento" label="Temperatura de Almacenamiento">
+        <Input type="number" />
+    </Form.Item>
+    <Form.Item name="fechaEntrada" label="Fecha de Entrada">
+        <DatePicker />
+    </Form.Item>
+    <Form.Item name="fechaCaducidad" label="Fecha de Caducidad">
+        <DatePicker />
+    </Form.Item>
+</Form>
+
       </Modal>
     </div>
   );
