@@ -8,7 +8,7 @@ import "jspdf-autotable";
 
 const { Option } = Select;
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const RequisicionSalidaPage = () => {
   const [requisiciones, setRequisiciones] = useState([]);

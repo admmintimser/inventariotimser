@@ -16,7 +16,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 const { Option } = Select;
 const { Search } = Input; // Añadido para el campo de búsqueda
 
-const API_URL = "http://localhost:5000/api"; // Actualiza con tu URL de la API
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api"; // Actualiza con tu URL de la API
 
 const ProductoPage = () => {
   const [productos, setProductos] = useState([]);

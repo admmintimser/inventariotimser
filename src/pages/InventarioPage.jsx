@@ -7,7 +7,7 @@ import moment from "moment";
 const { Option } = Select;
 const { Search } = Input; // Añadido para el campo de búsqueda
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const InventarioPage = () => {
   const [inventarios, setInventarios] = useState([]);

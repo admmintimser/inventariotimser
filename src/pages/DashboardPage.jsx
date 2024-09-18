@@ -10,7 +10,7 @@ function DashboardPage() {
   const [topSupplier, setTopSupplier] = useState(null);
   const [mostActiveArea, setMostActiveArea] = useState(null);
 
-  const API_URL = "http://localhost:5000/api";
+  const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {

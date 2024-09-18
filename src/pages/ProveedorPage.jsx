@@ -3,7 +3,7 @@ import axios from "axios";
 import { Table, Button, Modal, Form, Input, Space, Checkbox, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const ProveedorPage = () => {
   const [proveedores, setProveedores] = useState([]);

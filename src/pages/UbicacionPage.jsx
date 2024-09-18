@@ -4,7 +4,7 @@ import { Table, Button, Modal, Form, Input, Space, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const UbicacionPage = () => {
   const [ubicaciones, setUbicaciones] = useState([]);

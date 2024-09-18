@@ -6,7 +6,7 @@ import moment from "moment";
 
 const { Option } = Select;
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const SalidaPage = () => {
   const [salidas, setSalidas] = useState([]);

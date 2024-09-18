@@ -5,7 +5,7 @@ import { Table, Button, Modal, Form, Input, Space, message } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment"; // Para formatear fechas
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://apiwebinventariotimser.azurewebsites.net/api";
 
 const DestinoPage = () => {
   const [destinos, setDestinos] = useState([]);
