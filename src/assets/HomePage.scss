@@ -1,0 +1,23 @@
+.homepage {
+  padding: 20px;
+
+  &__link {
+    display: block;
+    margin-top: 10px;
+    color: #0d7a79;
+    text-decoration: none;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .MuiCard-root {
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

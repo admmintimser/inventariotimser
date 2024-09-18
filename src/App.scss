@@ -1,11 +1,12 @@
-@use "./styles/global.scss" as *;
-@use "./styles/partials/colors" as *;
-@use "./styles/partials/mixins" as *;
-@use "./styles/partials/fonts" as *;
-@use "./styles/partials/variables" as *;
+@use "./pages/styles//global.scss" as *;
+@use "./pages/styles//partials/colors" as *;
+@use "./pages/styles//partials/mixins" as *;
+@use "./pages/styles//partials/fonts" as *;
+@use "./pages/styles//partials/variables" as *;
 
 .app {
   display: flex;
+  background-color: white;
 
   &__container {
     flex-grow: 1;
